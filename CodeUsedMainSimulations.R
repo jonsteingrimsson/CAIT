@@ -2757,7 +2757,7 @@ return(list(mse = mse, n.corr = n.corr, numb.noise = numb.noise, size.tree = siz
 
 
 #######################################################################################################################################
-########################### One Simulation for heterogeneous treatment effect
+########################### One Simulation
 #######################################################################################################################################
 
 data.1 = makeData.cont.eff(500, 1000)
@@ -2830,3 +2830,72 @@ eval.vt = eval.measures.eff(vt.tree$vt.tree, test.data, true.trt.effect)
 
 performance = list(eval.final.method.1.cv.3 = eval.final.method.1.cv.3, eval.final.method.2.cv.3 = eval.final.method.2.cv.3, eval.final.method.3.cv.3 = eval.final.method.3.cv.3, eval.final.method.1.cv.2 = eval.final.method.1.cv.2, eval.final.method.2.cv.2 = eval.final.method.2.cv.2, eval.final.method.3.cv.2 = eval.final.method.3.cv.2, eval.mob = eval.mob, eval.mob.2 = eval.mob.2, eval.vt = eval.vt)
 
+data.1 = makeData.cont.no.eff(500, 1000)
+data.used.full = data.1$data.used
+data.used = data.1$data.used[1:400, ]
+data.validation = data.1$data.used[401:500, ]
+test.data = data.1$test.data
+true.trt.effect = data.1$true.trt.effect
+
+# CV 3
+
+# Fit tree using node specific means
+seq.created = create.sequnce(data.used, etemp.used = etemp.1.trt, itemp.used = itemp.ycont, stemp.used = stemp.1.ts)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.1 = cv.est.3.method.1(data.used, tree.list, lambda.list, etemp.used = etemp.1.trt, stemp.used = stemp.1.ts, lambda.used = 4, val.sample = data.validation)
+eval.final.method.1.cv.3 = eval.measures.no.eff(final.tree.1[[1]], test.data, true.trt.effect)
+
+# Fit tree using first estimator
+seq.created = create.sequnce(data.used, etemp.used = etemp.2.trt, itemp.used = itemp.ycont, stemp.used = stemp.2.ts)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.2 = cv.est.3.method.2(data.used, tree.list, lambda.list, etemp.used = etemp.2.trt, stemp.used = stemp.2.ts, lambda.used = 4, val.sample = data.validation)
+eval.final.method.2.cv.3 = eval.measures.no.eff(final.tree.2[[1]], test.data, true.trt.effect)
+
+  
+# Fit tree using second estimator
+seq.created = create.sequnce(data.used, etemp.used = etemp.3.trt, itemp.used = itemp.ycont, stemp.used = stemp.3.ts, need.cond.exp = TRUE)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.3 = cv.est.3.method.3(data.used, tree.list, lambda.list, etemp.used = etemp.3.trt, stemp.used = stemp.3.ts, lambda.used = 4, val.sample = data.validation, type.var = "cont")
+eval.final.method.3.cv.3 = eval.measures.no.eff(final.tree.3[[1]], test.data, true.trt.effect)
+
+# CV 2
+
+# Fit tree using node specific means
+seq.created = create.sequnce(data.used.full, etemp.used = etemp.1.trt, itemp.used = itemp.ycont, stemp.used = stemp.1.ts)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.1 = cv.est.2.method.1(data.used.full, tree.list, lambda.list, etemp.used = etemp.1.trt, stemp.used = stemp.1.ts)
+eval.final.method.1.cv.2 = eval.measures.no.eff(final.tree.1[[1]], test.data, true.trt.effect)
+
+# Fit tree using first estimator
+seq.created = create.sequnce(data.used.full, itemp.used = itemp.ycont, etemp.used = etemp.2.trt, stemp.used = stemp.2.ts)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.2 = cv.est.2.method.2(data.used.full, tree.list, lambda.list, etemp.used = etemp.2.trt, stemp.used = stemp.2.ts)
+eval.final.method.2.cv.2 = eval.measures.no.eff(final.tree.2[[1]], test.data, true.trt.effect)
+
+  
+# Fit tree using second estimator
+seq.created = create.sequnce(data.used.full, etemp.used = etemp.3.trt, itemp.used = itemp.ycont, stemp.used = stemp.3.ts, need.cond.exp = TRUE)
+tree.list = seq.created$tree.list
+lambda.list = seq.created$lambda.list
+final.tree.3 = cv.est.2.method.3(data.used.full, tree.list, lambda.list, etemp.used = etemp.3.trt, stemp.used = stemp.3.ts)
+eval.final.method.3.cv.2 = eval.measures.no.eff(final.tree.3[[1]], test.data, true.trt.effect)
+
+
+# Fit the mob method
+fit.mob = mob.fit(data.used.full)
+eval.mob = eval.measures.no.eff.mob(fit.mob, test.data, true.trt.effect, data.used = data.used.full)
+
+# Fit the mob method
+fit.mob.2 = mob.fit.2(data.used.full)
+eval.mob.2 = eval.measures.no.eff.mob(fit.mob.2, test.data, true.trt.effect, data.used = data.used.full)
+
+# Fit the virtual twins method
+vt.tree = vt.sim.cont(data.used.full)
+eval.vt = eval.measures.no.eff(vt.tree$vt.tree, test.data, true.trt.effect)
+
+performance.no.eff = list(eval.final.method.1.cv.3 = eval.final.method.1.cv.3, eval.final.method.2.cv.3 = eval.final.method.2.cv.3, eval.final.method.3.cv.3 = eval.final.method.3.cv.3, eval.final.method.1.cv.2 = eval.final.method.1.cv.2, eval.final.method.2.cv.2 = eval.final.method.2.cv.2, eval.final.method.3.cv.2 = eval.final.method.3.cv.2, eval.mob = eval.mob, eval.mob.2 = eval.mob.2, eval.vt = eval.vt)
