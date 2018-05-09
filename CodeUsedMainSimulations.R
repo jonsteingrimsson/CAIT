@@ -1,9 +1,3 @@
-job.number <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
-
-load("seed1000.rda")
-  
-set.seed(a[job.number])
-
 library(randomForest)
 library(aVirtualTwins)
 library(MASS)
@@ -2906,13 +2900,3 @@ vt.tree = vt.sim.cont(data.used.full)
 eval.vt = eval.measures.no.eff(vt.tree$vt.tree, test.data, true.trt.effect)
 
 performance.no.eff = list(eval.final.method.1.cv.3 = eval.final.method.1.cv.3, eval.final.method.2.cv.3 = eval.final.method.2.cv.3, eval.final.method.3.cv.3 = eval.final.method.3.cv.3, eval.final.method.1.cv.2 = eval.final.method.1.cv.2, eval.final.method.2.cv.2 = eval.final.method.2.cv.2, eval.final.method.3.cv.2 = eval.final.method.3.cv.2, eval.mob = eval.mob, eval.mob.2 = eval.mob.2, eval.vt = eval.vt)
-
-
-
-file.name = paste("Result/Temp/fileUsedNoEffMain", toString(job.number), ".rda", sep = "")
-#file.name = "Result/Temp/Result.rda"
-save(performance.no.eff, file = file.name)
-
-file.name = paste("Result/Temp/fileUsedEffMain", toString(job.number), ".rda", sep = "")
-#file.name = "Result/Temp/Result.rda"
-save(performance, file = file.name)
