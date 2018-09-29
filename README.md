@@ -19,5 +19,6 @@ Functions | Description
 **`EvalMeas.R`** | Contains function to evaluate the final tree through multiple criteria.
 **`iTemp.R`** | Initialization function for `rpart()`.
 **`library.R`** | Contains code to install uninstalled and load libraries. 
+**`MobVt.R`** | Implements MOB and VT algorithm simulations in the manuscript.
 **`pruning.R`** | Contains functions to calculate the sequence of candidate trees.
 **`SimData.R`** | Simulate data under different settings. 
