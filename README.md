@@ -8,9 +8,9 @@ The file CodeUsedMainSimulations.R implments the simulations presented in the ma
 
 Implements the simulations presented in the manuscript using the following functions.
 
-- **`CvMethod1.R`**
-
-Contains functions implementing final tree selection method 1 for different estimators. `.EstNs` in the function names stands for node specific estimators; `.Est1` stands for model standardization estimators; `.Est2` stands for data adaptive estimators; `.TruePaper` stands for true model is fitted in the paper’s simulation setting (same below).
+Functions | Description
+----------|------------
+**`CvMethod1.R`** | Contains functions implementing final tree selection method 1 for different estimators. `.EstNs` in the function names stands for node specific estimators; `.Est1` stands for model standardization estimators; `.Est2` stands for data adaptive estimators; `.TruePaper` stands for true model is fitted in the paper’s simulation setting (same below).
     
 - **`CvMethod2.R`**
 
