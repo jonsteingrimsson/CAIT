@@ -1,5 +1,5 @@
 # CAIT
-Code for Covariate Adjusted Interaction Trees
+Code for Covariate Adjusted Interaction Trees (available from http://arxiv.org/abs/1806.08258)
 
 **`Main.R`**
 
